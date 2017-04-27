@@ -1,6 +1,6 @@
 {
   "name": "api-gateway-local",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "simulate AWS API Gateway for development in your local environment",
   "repository": {
     "type": "git",
@@ -8,9 +8,8 @@
   },
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
   },
-  "author": "",
+  "author": "Siddhartha Goyal",
   "license": "MIT",
   "dependencies": {
     "api-gateway-mapping-template": "0.0.7"
