@@ -1,7 +1,9 @@
 var fs = require('fs');
+var bodyParser = require('body-parser');
+var mappingTemplate = require('api-gateway-mapping-template');
 
 var sort = require('./lib/sort_routes');
-var mappingTemplate = require("api-gateway-mapping-template");
+
 
 // - Parameters
 //   - app - `instance of express`
@@ -14,14 +16,15 @@ var mappingTemplate = require("api-gateway-mapping-template");
 //     - requestTemplates - `map<String, String|Buffer>`
 //     - responseTemplates - `map<String, String|Buffer>`
 module.exports = function(app, routes) {
-  app.use(function(req, res, next) {
+  /*app.use(function(req, res, next) {
     req.rawBody = '';
     req.setEncoding('utf8');
     req.on('data', function(chunk) { req.rawBody += chunk; });
     req.on('end', function() {
       next();
     });
-  });
+  });*/
+  app.use(bodyParser.text());
 
   paramRegexp = /^{[a-zA-Z0-9._-]+}$/
   normalRegexp = /^[a-zA-Z0-9._-]+$/
@@ -56,7 +59,7 @@ module.exports = function(app, routes) {
 
       var event = JSON.parse(mappingTemplate({
         template: requestTemplate.toString(),
-        payload: req.rawBody,
+        payload: req.body,
         params: {
           header: req.headers,
           path: req.params,
