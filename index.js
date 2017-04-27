@@ -7,6 +7,7 @@ var mappingTemplate = require("api-gateway-mapping-template");
 //   - app - `instance of express`
 //   - routes - `Array<map>`
 //     - lambda - `Function`
+//     - arn - `String`
 //     - method - `String`
 //     - path - `String`
 //     - statusCode - `Number`
@@ -65,6 +66,7 @@ module.exports = function(app, routes) {
       event['__express_req'] = req; // express's request object for debug
       event['__express_res'] = res; // express's response object for debug
       var context = {
+        arn: route.invokedFunctionArn,
         done: function(err, obj) {
           obj = obj || "";
           var contentType, responseTemplates, responseTemplate, responseBody, statusCode;
@@ -121,7 +123,13 @@ module.exports = function(app, routes) {
         },
       };
 
-      route.lambda(event, context);
+      route.lambda(event, context, function(err, result) {
+    	  if (err) {
+    		  context.fail(err);
+    	  } else {
+    		  context.succeed(result);
+    	  }
+      });
     });
   });
 

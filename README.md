@@ -44,8 +44,8 @@ app.listen(8000);
 lambda.js:
 
 ```node
-exports.handler = function (event, context) {
-  context.done(null, findUser(event.username));
+exports.handler = function (event, context, callback) {
+  callback(err, findUser(event.username));
 }
 
 function findUser(username) {
@@ -71,6 +71,7 @@ var apiGatewayLocal = require('api-gateway-localdev')
   - app - `instance of express`
   - routes - `Array<map>`
     - lambda - `Function`
+    - arn - `String` - The arn to use for `context.invokedFunctionArn` key to enable simulation of stages.
     - method - `String`
     - path - `String`
     - statusCode - `Number`
