@@ -56,16 +56,19 @@ module.exports = function(app, routes) {
     app[route.method.toLowerCase()](path, function(req, res) {
       var requestContentType = req.headers['content-type'] || "application/json";
       var requestTemplate = route.requestTemplates[requestContentType.toLowerCase()] || "$input.json('$')";
-
-      var event = JSON.parse(mappingTemplate({
-        template: requestTemplate.toString(),
-        payload: req.body,
-        params: {
-          header: req.headers,
-          path: req.params,
-          querystring: req.query
-        },
-      }));
+      var event = {};
+      if (req.body.length > 0) {
+    	  event = JSON.parse(mappingTemplate({
+	        template: requestTemplate.toString(),
+	        payload: req.body,
+	        params: {
+	          header: req.headers,
+	          path: req.params,
+	          querystring: req.query
+	        },
+	      }));
+      }
+      
       event['__express_req'] = req; // express's request object for debug
       event['__express_res'] = res; // express's response object for debug
       var context = {
