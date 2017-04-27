@@ -1,10 +1,10 @@
 {
-  "name": "api-gateway-localdev",
+  "name": "api-gateway-local",
   "version": "2.0.1",
-  "description": "simulate AWS API Gateway for dev in your local",
+  "description": "simulate AWS API Gateway for development in your local environment",
   "repository": {
     "type": "git",
-    "url": "http://github.com/ToQoz/api-gateway-localdev.git"
+    "url": "https://github.com/sgoyal77/api-gateway-localdev.git"
   },
   "main": "index.js",
   "scripts": {
