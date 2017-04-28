@@ -25,7 +25,8 @@ module.exports = function(app, routes) {
     });
   });*/
   app.use(bodyParser.text());
-
+  app.use(bodyParser.json());
+  
   paramRegexp = /^{[a-zA-Z0-9._-]+}$/
   normalRegexp = /^[a-zA-Z0-9._-]+$/
 
@@ -57,10 +58,13 @@ module.exports = function(app, routes) {
       var requestContentType = req.headers['content-type'] || "application/json";
       var requestTemplate = route.requestTemplates[requestContentType.toLowerCase()] || "$input.json('$')";
       var event = {};
-      if (req.body.length > 0) {
+      if (("object" == typeof req.body && Object.keys(req.body).length) ||
+    		  ("string" == typeof req.body && req.body.length)) {
+    	  
+    	  var payload = ("object" == typeof req.body) ? JSON.stringify(req.body) : req.body;
     	  event = JSON.parse(mappingTemplate({
 	        template: requestTemplate.toString(),
-	        payload: req.body,
+	        payload: payload,
 	        params: {
 	          header: req.headers,
 	          path: req.params,
