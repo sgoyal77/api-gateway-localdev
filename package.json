@@ -1,6 +1,6 @@
 {
   "name": "api-gateway-local",
-  "version": "2.1.0",
+  "version": "2.1.2",
   "description": "simulate AWS API Gateway for development in your local environment",
   "repository": {
     "type": "git",
